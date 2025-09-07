@@ -1,93 +1,85 @@
-import React from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import { Link } from "@mui/material";
-import { Link as RouterLink} from "react-router-dom";
+import React from 'react';
+import { Box, AppBar, Toolbar, Typography, Link } from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import PersonIcon from '@mui/icons-material/Person';
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
 export default function Navbar() {
+  const location = useLocation(); 
+
+  const navLinks = [
+    { label: "Home", path: "/home" },
+    { label: "About", path: "/" },
+    { label: "Brands", path: "/" },
+    { label: "Products", path: "/" },
+  ];
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "transparent",color:"black" }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          background: "rgba(92, 92, 92, 0.1)", 
+          color: "white",
+          boxShadow: "0px 10px 30px rgba(0,0,0,0.8)",
+          marginTop:5,
+          marginRight:17,
+          width:1250,
+          borderRadius:3,
+          backdropFilter: "blur(10px)", 
+          WebkitBackdropFilter: "blur(10px)", 
+        }}
+      >
         <Toolbar>
-  <Toolbar sx={{ gap: 3, marginLeft: 5 }}>
-  <Link component={RouterLink} to="/home" style={{ textDecoration: "none", color: "inherit" }}>
-    <Typography variant="h6" noWrap sx={{ display: { xs: "none", sm: "block" } }}>
-      Home
-    </Typography>
-  </Link>
+          <Typography
+            variant="h4"
+            noWrap
+            sx={{
+              display: { xs: "none", sm: "block" },
+              fontSize: "36px",
+              fontFamily: "'Orbitron', sans-serif", 
+              fontWeight: 700,
+              color: "#a29f9fff",
+              marginLeft: 10,
+            }}
+          >
+            YYH23
+          </Typography>
 
-  <Link component={RouterLink} to="/" style={{ textDecoration: "none", color: "inherit" }}>
-    <Typography variant="h6" noWrap sx={{ display: { xs: "none", sm: "block" } }}>
-      Brands
-    </Typography>
-  </Link>
+          <Toolbar sx={{ gap: 4, marginLeft: 19 }}>
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                component={RouterLink}
+                to={link.path}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Typography
+                  variant="h6"
+                  noWrap
+                 sx={{
+                  display: { xs: "none", sm: "block" },
+                  borderBottom: location.pathname === link.path ? "4px solid #820cb4ff" : "3px solid transparent",
+                  paddingBottom: "1px",
+                  transition: "border-bottom 0.6s ease-in-out",
+                    }}
+                >
+                  {link.label}
+                </Typography>
+              </Link>
+            ))}
+          </Toolbar>
 
-  <Link component={RouterLink} to="/" style={{ textDecoration: "none", color: "inherit" }}>
-    <Typography variant="h6" noWrap sx={{ display: { xs: "none", sm: "block" } }}>
-      Products
-    </Typography>
-  </Link>
-</Toolbar>
-         
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+          <Toolbar sx={{ gap: 3, marginLeft: 27 }}>
+             <Link component={RouterLink} to="/register" sx={{ color: "inherit" }}>
+              <PersonIcon />
+             </Link>
+            <FavoriteIcon/>
+            <ShoppingCartIcon/>
+          </Toolbar>
         </Toolbar>
       </AppBar>
     </Box>
-  )
+  );
 }
